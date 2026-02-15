@@ -552,30 +552,39 @@
 
         // Typewriter Effect
         const words = ["Full-Stack Developer", "Backend Engineer", "AI Integrator", "Problem Solver"];
-        let i = 0;
-        let timer;
-
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
         function typeWriter() {
             const element = document.getElementById('typewriter');
-            const word = words[i];
-            let currentText = element.innerText;
-            
-            if (!this.isDeleting && currentText !== word) {
-                element.innerText = word.substring(0, currentText.length + 1);
-                timer = setTimeout(typeWriter, 100);
-            } else if (this.isDeleting && currentText !== '') {
-                element.innerText = word.substring(0, currentText.length - 1);
-                timer = setTimeout(typeWriter, 50);
-            } else {
-                this.isDeleting = !this.isDeleting;
-                if (!this.isDeleting) {
-                    i = (i + 1) % words.length;
-                    timer = setTimeout(typeWriter, 500);
-                } else {
-                    timer = setTimeout(typeWriter, 2000);
+            const currentWord = words[wordIndex];
+        
+            if (!element) return;
+        
+            if (!isDeleting) {
+                element.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+        
+                if (charIndex === currentWord.length) {
+                    isDeleting = true;
+                    setTimeout(typeWriter, 1500); // pause at full word
+                    return;
+                }
+            } 
+            else {
+                element.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+        
+                if (charIndex === 0) {
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % words.length;
                 }
             }
+        
+            setTimeout(typeWriter, isDeleting ? 50 : 100);
         }
+
 
         // Initialize Animations
         document.addEventListener('DOMContentLoaded', () => {
@@ -620,5 +629,6 @@
             });
         });
     </script>
+
 
 </body></html>
