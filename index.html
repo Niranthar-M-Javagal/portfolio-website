@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Niranthar M J | Full-Stack Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;family=Inter:wght@300;400;600;800&amp;display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --bg-dark: #0f0f11;
+            --bg-card: #18181b;
+            --accent: #3b82f6; /* Blue-500 */
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        /* Utilities */
+        .text-gradient {
+            background: linear-gradient(to right, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-card {
+            background: rgba(24, 24, 27, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-blur {
+            background: rgba(15, 15, 17, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Code Block Styling */
+        .code-block {
+            background: #0d0d0d;
+            border: 1px solid #27272a;
+            border-radius: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            overflow: hidden;
+        }
+        
+        .cursor-blink {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background-color: var(--accent);
+            animation: blink 1s step-end infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Hover Effects */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        /* Grid Background */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-blue-500/30 selection:text-blue-200">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 nav-blur transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <span class="font-mono text-xl font-bold text-white tracking-tighter">&lt;NMJ /&gt;</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8 font-mono text-sm">
+                        <a class="text-gray-300 hover:text-white hover:bg-white/5 px-3 py-2 rounded-md transition-colors" href="#about">About</a>
+                        <a class="text-gray-300 hover:text-white hover:bg-white/5 px-3 py-2 rounded-md transition-colors" href="#skills">Skills</a>
+                        <a class="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 px-3 py-2 rounded-md transition-colors" href="#projects">Projects</a>
+                        <a class="text-gray-300 hover:text-white hover:bg-white/5 px-3 py-2 rounded-md transition-colors" href="#leadership">Leadership</a>
+                        <a class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-md transition-colors border border-white/10" href="#contact">Contact</a>
+                    </div>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button aria-controls="mobile-menu" aria-expanded="false" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" type="button">
+                        <span class="sr-only">Open main menu</span>
+                        <svg aria-hidden="true" class="block h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="hidden md:hidden bg-[#0f0f11] border-b border-white/10" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 font-mono">
+                <a class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base" href="#about">About</a>
+                <a class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base" href="#skills">Skills</a>
+                <a class="text-blue-400 block px-3 py-2 rounded-md text-base" href="#projects">Projects</a>
+                <a class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base" href="#leadership">Leadership</a>
+                <a class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base" href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
+        <!-- Background Grid -->
+        <div class="absolute inset-0 bg-grid z-0 pointer-events-none"></div>
+        
+        <!-- Decorative Blobs -->
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl filter mix-blend-screen animate-pulse"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl filter mix-blend-screen animate-pulse" style="animation-delay: 2s;"></div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="hero-content opacity-0 translate-y-10">
+                <p class="font-mono text-blue-400 mb-4 text-sm md:text-base tracking-widest uppercase">Hello, World. I am</p>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white mb-6">
+                    Niranthar M J
+                </h1>
+                <div class="h-8 md:h-12 mb-8 flex justify-center items-center">
+                    <span class="text-xl md:text-3xl text-gray-400 font-light" id="typewriter"></span><span class="cursor-blink"></span>
+                </div>
+                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mb-10 leading-relaxed">
+                    I build scalable web applications, backend systems, and AI-integrated tools that solve real problems.
+                </p>
+                <div class="flex justify-center gap-4">
+                    <a class="group relative inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white bg-blue-600 rounded-full overflow-hidden transition-all hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-gray-900" href="#projects">
+                        <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-56 group-hover:h-56 opacity-10"></span>
+                        <span class="relative flex items-center gap-2">
+                            View Projects
+                            <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                        </span>
+                    </a>
+                    <a class="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-gray-300 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 focus:ring-offset-gray-900" href="https://github.com/Niranthar-M-Javagal" target="_blank">
+                        GitHub Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 14l-7 7m0 0l-7-7m7 7V3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-24 bg-[#0f0f11] relative" id="about">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal-on-scroll opacity-0 translate-x-[-20px]">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 flex items-center gap-3">
+                        <span class="text-blue-500 font-mono text-2xl">01.</span> About Me
+                    </h2>
+                    <div class="space-y-4 text-gray-400 text-lg leading-relaxed">
+                        <p>
+                            I am a third-year <span class="text-white font-semibold">Computer Science &amp; Design</span> student at Atria Institute of Technology, Bangalore. My passion lies in the intersection of robust backend engineering and intelligent system design.
+                        </p>
+                        <p>
+                            I enjoy designing structured applications, building secure APIs, and integrating AI capabilities into practical tools. My focus is always on <span class="text-blue-400">real-world problem solving</span>, system design, and scalable architecture.
+                        </p>
+                        <p>
+                            When I'm not coding, I'm likely exploring new tech stacks, contributing to college clubs, or optimizing my development workflow.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-8 pt-8 border-t border-white/10 grid grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="text-white font-mono text-sm mb-1">Education</h4>
+                            <p class="text-gray-400 text-sm">B.E. CSE (Design)<br/>Atria Institute of Tech</p>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-mono text-sm mb-1">Location</h4>
+                            <p class="text-gray-400 text-sm">Bangalore, India</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reveal-on-scroll opacity-0 translate-x-[20px] relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                    <div class="relative bg-[#18181b] rounded-lg p-8 border border-white/5 shadow-2xl">
+                        <!-- Terminal Window Mockup -->
+                        <div class="flex items-center gap-2 mb-4 border-b border-white/10 pb-4">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <div class="ml-auto text-xs text-gray-500 font-mono">niranthar@dev:~</div>
+                        </div>
+                        <div class="font-mono text-sm space-y-2">
+                            <p><span class="text-purple-400">const</span> <span class="text-blue-400">developer</span> = {</p>
+                            <p class="pl-4">name: <span class="text-green-400">'Niranthar M J'</span>,</p>
+                            <p class="pl-4">role: <span class="text-green-400">'Full-Stack Developer'</span>,</p>
+                            <p class="pl-4">skills: [<span class="text-green-400">'Node.js'</span>, <span class="text-green-400">'React'</span>, <span class="text-green-400">'AI'</span>],</p>
+                            <p class="pl-4">hardWorker: <span class="text-yellow-400">true</span>,</p>
+                            <p class="pl-4">problemSolver: <span class="text-yellow-400">true</span></p>
+                            <p>};</p>
+                            <p class="animate-pulse text-gray-500">_</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="py-24 bg-[#131316]" id="skills">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal-on-scroll opacity-0 translate-y-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                    <span class="text-blue-500 font-mono text-2xl">02.</span> Technical Skills
+                </h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">My technical toolkit focused on building modern, scalable applications.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Programming -->
+                <div class="glass-card p-6 rounded-xl hover-lift reveal-on-scroll opacity-0 translate-y-8">
+                    <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4 text-blue-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Languages</h3>
+                    <ul class="space-y-2 text-gray-400 font-mono text-sm">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>Java</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>JavaScript (ES6+)</li>
+                    </ul>
+                </div>
+
+                <!-- Web Dev -->
+                <div class="glass-card p-6 rounded-xl hover-lift reveal-on-scroll opacity-0 translate-y-8" style="transition-delay: 100ms;">
+                    <div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4 text-purple-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Web Development</h3>
+                    <ul class="space-y-2 text-gray-400 font-mono text-sm">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span>HTML5 &amp; CSS3</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span>React.js</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span>Node.js &amp; Express</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span>REST APIs</li>
+                    </ul>
+                </div>
+
+                <!-- Database -->
+                <div class="glass-card p-6 rounded-xl hover-lift reveal-on-scroll opacity-0 translate-y-8" style="transition-delay: 200ms;">
+                    <div class="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-4 text-green-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Database</h3>
+                    <ul class="space-y-2 text-gray-400 font-mono text-sm">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>MySQL</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>Schema Design</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>Query Optimization</li>
+                    </ul>
+                </div>
+
+                <!-- Tools -->
+                <div class="glass-card p-6 rounded-xl hover-lift reveal-on-scroll opacity-0 translate-y-8" style="transition-delay: 300ms;">
+                    <div class="w-12 h-12 bg-yellow-500/10 rounded-lg flex items-center justify-center mb-4 text-yellow-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Tools &amp; Auth</h3>
+                    <ul class="space-y-2 text-gray-400 font-mono text-sm">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>Git &amp; GitHub</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>Auth Systems (JWT)</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>Swagger / OpenAPI</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="py-24 bg-[#0f0f11] relative" id="projects">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal-on-scroll opacity-0 translate-y-8">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">
+                        <span class="text-blue-500 font-mono text-2xl">03.</span> Featured Projects
+                    </h2>
+                    <p class="text-gray-400">Some things I've built.</p>
+                </div>
+                <a class="hidden md:inline-flex items-center text-blue-400 hover:text-blue-300 font-mono text-sm mt-4 md:mt-0" href="https://github.com/Niranthar-M-Javagal" target="_blank">
+                    View Full Project Archive <span class="ml-2">→</span>
+                </a>
+            </div>
+
+            <!-- Project 1: dosBrain (Featured) -->
+            <div class="mb-20 reveal-on-scroll opacity-0 translate-y-8">
+                <div class="group relative bg-[#18181b] rounded-2xl border border-blue-500/20 overflow-hidden hover:border-blue-500/50 transition-all duration-500 shadow-2xl shadow-blue-900/10">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500"></div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
+                        <!-- Visual Side -->
+                        <div class="relative h-64 lg:h-auto bg-[#131316] p-8 flex flex-col justify-center items-center overflow-hidden">
+                            <div class="absolute inset-0 bg-grid opacity-20"></div>
+                            <div class="relative z-10 w-full max-w-md">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex space-x-2">
+                                        <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+                                        <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                                        <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+                                    </div>
+                                    <div class="text-xs text-gray-500 font-mono">dosBrain_v1.0.exe</div>
+                                </div>
+                                <div class="bg-black/50 rounded-lg p-4 border border-white/5 font-mono text-xs text-green-400 shadow-inner">
+                                    <p>&gt; Initializing AI Engine...</p>
+                                    <p>&gt; Loading Vector DB... [OK]</p>
+                                    <p>&gt; User Auth Verified.</p>
+                                    <p class="text-white mt-2">&gt; Query: "Find my notes on system design"</p>
+                                    <p class="text-blue-400 animate-pulse">&gt; Processing RAG Pipeline...</p>
+                                </div>
+                            </div>
+                            <!-- Badge -->
+                            <div class="absolute top-4 right-4 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg shadow-blue-500/20">
+                                FEATURED
+                            </div>
+                        </div>
+
+                        <!-- Content Side -->
+                        <div class="p-8 lg:p-12 flex flex-col justify-center">
+                            <div class="flex items-center gap-2 mb-2">
+                                <h3 class="text-3xl font-bold text-white">dosBrain</h3>
+                                <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                            </div>
+                            <p class="text-blue-400 font-mono text-sm mb-6">AI-Powered Knowledge Engine</p>
+                            
+                            <p class="text-gray-400 mb-6 leading-relaxed">
+                                An intelligent backend system designed to store, search, and retrieve user knowledge using semantic search and AI. It features a RAG-style pipeline for context-aware responses.
+                            </p>
+
+                            <div class="space-y-4 mb-8">
+                                <div class="flex items-start gap-3">
+                                    <svg class="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                                    <span class="text-gray-300 text-sm">Secure Notes CRUD with protected routes</span>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <svg class="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                                    <span class="text-gray-300 text-sm">Semantic search with relevance scoring</span>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <svg class="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                                    <span class="text-gray-300 text-sm">Swagger API Documentation</span>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap gap-2 mb-8">
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300 font-mono">Node.js</span>
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300 font-mono">Express</span>
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300 font-mono">AI/ML</span>
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-gray-300 font-mono">Vector DB</span>
+                            </div>
+                            
+                            <div class="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+                                <span class="text-xs text-gray-500 font-mono">DEMONSTRATES: Backend Engineering, AI Integration, System Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2 & 3 Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Project 2: ClubSphere -->
+                <div class="group glass-card rounded-xl overflow-hidden hover-lift flex flex-col h-full reveal-on-scroll opacity-0 translate-y-8">
+                    <div class="h-48 bg-gradient-to-br from-purple-900/20 to-blue-900/20 p-6 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-grid opacity-30"></div>
+                        <div class="relative z-10 text-center">
+                            <div class="w-16 h-16 bg-white/5 rounded-2xl mx-auto mb-3 flex items-center justify-center border border-white/10 backdrop-blur-sm">
+                                <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+                            </div>
+                            <h4 class="text-xl font-bold text-white">ClubSphere</h4>
+                            <p class="text-xs text-gray-400 font-mono mt-1">Full-Stack Platform</p>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <p class="text-gray-400 text-sm mb-4 flex-1">
+                            A platform to streamline collaboration across college clubs. Features seminar hall booking, event scheduling, and multi-level approval workflows.
+                        </p>
+                        <div class="space-y-2 mb-6">
+                            <div class="flex items-center gap-2 text-xs text-gray-300">
+                                <span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span>
+                                Role-based Access Control
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-gray-300">
+                                <span class="w-1.5 h-1.5 bg-purple-500 rounded-full"></span>
+                                Multi-user System Design
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span class="text-xs font-mono text-gray-500">React</span>
+                            <span class="text-xs font-mono text-gray-500">•</span>
+                            <span class="text-xs font-mono text-gray-500">Node.js</span>
+                            <span class="text-xs font-mono text-gray-500">•</span>
+                            <span class="text-xs font-mono text-gray-500">MySQL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: Attendance Management -->
+                <div class="group glass-card rounded-xl overflow-hidden hover-lift flex flex-col h-full reveal-on-scroll opacity-0 translate-y-8" style="transition-delay: 100ms;">
+                    <div class="h-48 bg-gradient-to-br from-green-900/20 to-teal-900/20 p-6 flex items-center justify-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-grid opacity-30"></div>
+                        <div class="relative z-10 text-center">
+                            <div class="w-16 h-16 bg-white/5 rounded-2xl mx-auto mb-3 flex items-center justify-center border border-white/10 backdrop-blur-sm">
+                                <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+                            </div>
+                            <h4 class="text-xl font-bold text-white">Attendance System</h4>
+                            <p class="text-xs text-gray-400 font-mono mt-1">Backend Application</p>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <p class="text-gray-400 text-sm mb-4 flex-1">
+                            A backend-driven web app for managing student attendance digitally. Features secure data handling and structured CRUD operations.
+                        </p>
+                        <div class="space-y-2 mb-6">
+                            <div class="flex items-center gap-2 text-xs text-gray-300">
+                                <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                                Secure API Development
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-gray-300">
+                                <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                                Database Connectivity
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span class="text-xs font-mono text-gray-500">Node.js</span>
+                            <span class="text-xs font-mono text-gray-500">•</span>
+                            <span class="text-xs font-mono text-gray-500">Express</span>
+                            <span class="text-xs font-mono text-gray-500">•</span>
+                            <span class="text-xs font-mono text-gray-500">MySQL</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="mt-12 text-center md:hidden">
+                <a class="inline-flex items-center text-blue-400 hover:text-blue-300 font-mono text-sm" href="https://github.com/Niranthar-M-Javagal" target="_blank">
+                    View Full Project Archive <span class="ml-2">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section class="py-24 bg-[#131316]" id="leadership">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-3xl mx-auto text-center reveal-on-scroll opacity-0 translate-y-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-12">
+                    <span class="text-blue-500 font-mono text-2xl">04.</span> Leadership
+                </h2>
+                
+                <div class="relative pl-8 border-l-2 border-blue-500/30 text-left">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+                    
+                    <div class="mb-2">
+                        <span class="text-blue-400 font-mono text-sm">2025 — Present</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Secretary Administration</h3>
+                    <p class="text-lg text-gray-300 mb-4">Rotaract Club of Atria Institute of Technology</p>
+                    <p class="text-gray-400 leading-relaxed">
+                        Coordinating and managing club operations. Supporting event planning and execution, working with diverse teams to organize institutional activities and foster community engagement.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-24 bg-[#0f0f11] relative overflow-hidden" id="contact">
+        <!-- Background Elements -->
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 reveal-on-scroll opacity-0 translate-y-8">
+            <p class="text-blue-400 font-mono mb-4">05. What's Next?</p>
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6">Get In Touch</h2>
+            <p class="text-gray-400 text-lg mb-10 max-w-xl mx-auto">
+                I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!
+            </p>
+            
+            <a class="inline-block px-8 py-4 border border-blue-500 text-blue-400 font-mono rounded hover:bg-blue-500/10 transition-all duration-300 mb-12" href="mailto:nmjavagal@gmail.com">
+                Say Hello
+            </a>
+
+            <div class="flex justify-center gap-8 mb-12">
+                <a class="text-gray-400 hover:text-white transition-colors transform hover:-translate-y-1" href="https://github.com/Niranthar-M-Javagal" target="_blank">
+                    <span class="sr-only">GitHub</span>
+                    <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" fill-rule="evenodd"></path></svg>
+                </a>
+                <a class="text-gray-400 hover:text-white transition-colors transform hover:-translate-y-1" href="https://www.linkedin.com/in/nirantharmj/" target="_blank">
+                    <span class="sr-only">LinkedIn</span>
+                    <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" fill-rule="evenodd"></path></svg>
+                </a>
+                <a class="text-gray-400 hover:text-white transition-colors transform hover:-translate-y-1" href="mailto:nmjavagal@gmail.com">
+                    <span class="sr-only">Email</span>
+                    <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                </a>
+            </div>
+
+            <div class="text-gray-600 text-sm font-mono">
+                <p>Designed &amp; Built by Niranthar M J</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Register ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Typewriter Effect
+        const words = ["Full-Stack Developer", "Backend Engineer", "AI Integrator", "Problem Solver"];
+        let i = 0;
+        let timer;
+
+        function typeWriter() {
+            const element = document.getElementById('typewriter');
+            const word = words[i];
+            let currentText = element.innerText;
+            
+            if (!this.isDeleting && currentText !== word) {
+                element.innerText = word.substring(0, currentText.length + 1);
+                timer = setTimeout(typeWriter, 100);
+            } else if (this.isDeleting && currentText !== '') {
+                element.innerText = word.substring(0, currentText.length - 1);
+                timer = setTimeout(typeWriter, 50);
+            } else {
+                this.isDeleting = !this.isDeleting;
+                if (!this.isDeleting) {
+                    i = (i + 1) % words.length;
+                    timer = setTimeout(typeWriter, 500);
+                } else {
+                    timer = setTimeout(typeWriter, 2000);
+                }
+            }
+        }
+
+        // Initialize Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start Typewriter
+            typeWriter();
+
+            // Hero Animation
+            gsap.to(".hero-content", {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power3.out",
+                delay: 0.2
+            });
+
+            // Scroll Reveal Animations
+            const revealElements = document.querySelectorAll('.reveal-on-scroll');
+            
+            revealElements.forEach((element) => {
+                gsap.to(element, {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    },
+                    opacity: 1,
+                    y: 0,
+                    x: 0,
+                    duration: 0.8,
+                    ease: "power2.out"
+                });
+            });
+
+            // Navbar scroll effect
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('shadow-lg');
+                } else {
+                    navbar.classList.remove('shadow-lg');
+                }
+            });
+        });
+    </script>
+
+</body></html>
